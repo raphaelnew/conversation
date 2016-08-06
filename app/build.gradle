@@ -13,15 +13,38 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
     dataBinding {
         enabled = true
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    productFlavors {
+        dev {
+            // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
+            // to pre-dex each module and produce an APK that can be tested on
+            // Android Lollipop without time consuming dex merging processes.
+            minSdkVersion 21
+            multiDexEnabled true
+        }
+
+        prod {
         }
     }
+
+    buildTypes {
+        debug{
+            debuggable true
+            versionNameSuffix '-DEBUG'
+            buildConfigField "String", "API_ENDPOINT", '"https://dl.dropboxusercontent.com"'
+        }
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_ENDPOINT", '"https://dl.dropboxusercontent.com"'
+        }
+    }
+
     greendao {
         schemaVersion 1
         daoPackage 'ru.irafa.conversation.dao'
@@ -36,5 +59,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha5'
     compile 'org.greenrobot:greendao:3.1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    debugCompile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     testCompile 'junit:junit:4.12'
 }
