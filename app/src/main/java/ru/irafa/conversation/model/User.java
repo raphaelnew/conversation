@@ -1,5 +1,7 @@
 package ru.irafa.conversation.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -29,6 +31,7 @@ public class User implements Parcelable {
     @Property
     private String name;
 
+    @SerializedName("avatar_url")
     @Property
     private String avatarUrl;
 

@@ -1,11 +1,14 @@
 package ru.irafa.conversation.model;
 
+//import com.google.gson.annotations.SerializedName;
+
+import com.google.gson.annotations.SerializedName;
+
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
-import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToOne;
 
@@ -33,13 +36,15 @@ public class Message implements Parcelable{
     @Id(autoincrement = false)
     private long id;
 
-    private long userId;
+    @SerializedName("user_id")
+    private Long userId;
 
     @ToOne(joinProperty = "userId")
     private User user;
 
     @Property
-    private long postedTs;
+    @SerializedName("posted_ts")
+    private Long postedTs;
 
     @Property
     private String content;
@@ -73,6 +78,14 @@ public class Message implements Parcelable{
         user = in.readParcelable(User.class.getClassLoader());
         postedTs = in.readLong();
         content = in.readString();
+    }
+
+    @Generated(hash = 1922876363)
+    public Message(long id, Long userId, Long postedTs, String content) {
+        this.id = id;
+        this.userId = userId;
+        this.postedTs = postedTs;
+        this.content = content;
     }
 
     public static final Creator<Message> CREATOR = new Creator<Message>() {
@@ -140,23 +153,19 @@ public class Message implements Parcelable{
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 462495677)
-    public void setUser(@NotNull User user) {
-        if (user == null) {
-            throw new DaoException(
-                    "To-one property 'userId' has not-null constraint; cannot set to-one to null");
-        }
+    @Generated(hash = 1065606912)
+    public void setUser(User user) {
         synchronized (this) {
             this.user = user;
-            userId = user.getId();
+            userId = user == null ? null : user.getId();
             user__resolvedKey = userId;
         }
     }
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 115391908)
+    @Generated(hash = 859885876)
     public User getUser() {
-        long __key = this.userId;
+        Long __key = this.userId;
         if (user__resolvedKey == null || !user__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -170,13 +179,6 @@ public class Message implements Parcelable{
             }
         }
         return user;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 747015224)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getMessageDao() : null;
     }
 
     public void setContent(String content) {
@@ -199,7 +201,8 @@ public class Message implements Parcelable{
     public String toString() {
         return "Message{" +
                 "id=" + id +
-                ", user=" + getUser().toString() +
+                ", userId=" + userId +
+                ", user=" + ((getUser() == null) ? "" : getUser().toString()) +
                 ", postedTs=" + postedTs +
                 ", content='" + content + '\'' +
                 '}';
@@ -217,5 +220,20 @@ public class Message implements Parcelable{
         parcel.writeParcelable(user, i);
         parcel.writeLong(postedTs);
         parcel.writeString(content);
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 747015224)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getMessageDao() : null;
+    }
+
+    public void setPostedTs(Long postedTs) {
+        this.postedTs = postedTs;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
