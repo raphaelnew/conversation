@@ -36,4 +36,12 @@ public class Conversation {
         daoSession.getUserDao().insertOrReplaceInTx(users);
         daoSession.getMessageDao().insertOrReplaceInTx(messages);
     }
+
+    @Override
+    public String toString() {
+        return "Conversation{" +
+                "users=" + users.toString() +
+                ", messages=" + messages.toString() +
+                '}';
+    }
 }

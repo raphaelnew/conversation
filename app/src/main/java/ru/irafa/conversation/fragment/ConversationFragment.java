@@ -44,10 +44,10 @@ public class ConversationFragment extends Fragment
                 .inflate(inflater, R.layout.fragment_conversation, container, false);
         if (savedInstanceState == null) {
             mPresenter = new ConversationPresenter(
-                    ((ConversationApp) getActivity().getApplication()).getDaoSession(), this);
+                    ConversationApp.getDaoSession(getContext()), this);
         } else {
             mPresenter = ConversationPresenter.fromSavedState(
-                    ((ConversationApp) getActivity().getApplication()).getDaoSession(), this,
+                    ConversationApp.getDaoSession(getContext()), this,
                     savedInstanceState);
         }
         return mBinding.getRoot();
@@ -77,7 +77,7 @@ public class ConversationFragment extends Fragment
     }
 
     @Override
-    public void onConversationLoadingError(String message, boolean canRetry) {
+    public void onConversationLoadingError(String message) {
         //// TODO: 06.08.16 show error message or snackback.
     }
 
