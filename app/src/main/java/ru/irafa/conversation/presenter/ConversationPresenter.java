@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import java.util.List;
 
+import ru.irafa.conversation.dao.DaoSession;
 import ru.irafa.conversation.model.Message;
 
 /**
@@ -24,22 +25,25 @@ public class ConversationPresenter {
         void onConversationChanged(List<Message> messages);
     }
 
+    private DaoSession daoSession;
+
     private OnConversationListener onConversationListener;
 
-    public static ConversationPresenter fromSavedState(@Nullable Bundle savedInstanceState, @NonNull OnConversationListener onConversationListener){
+    public static ConversationPresenter fromSavedState(DaoSession daoSession, @NonNull OnConversationListener onConversationListener, @Nullable Bundle savedInstanceState){
         if(savedInstanceState!=null){
             //// TODO: 06.08.16 restore state after device configuration changes.
         }
-        return new ConversationPresenter(onConversationListener, false);
+        return new ConversationPresenter(daoSession, onConversationListener, false);
     }
 
-    public ConversationPresenter(@NonNull OnConversationListener onConversationListener) {
-        this(onConversationListener, true);
+    public ConversationPresenter(DaoSession daoSession, @NonNull OnConversationListener onConversationListener) {
+        this(daoSession, onConversationListener, true);
     }
 
-    public ConversationPresenter(@NonNull OnConversationListener onConversationListener,
+    public ConversationPresenter(DaoSession daoSession, @NonNull OnConversationListener onConversationListener,
             boolean sync) {
         this.onConversationListener = onConversationListener;
+        this.daoSession = daoSession;
         //// TODO: 06.08.16 initialize presenter. check DB for existing conversation. sync if needed.
     }
 

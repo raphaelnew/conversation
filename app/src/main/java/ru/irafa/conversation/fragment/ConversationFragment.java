@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import ru.irafa.conversation.ConversationApp;
 import ru.irafa.conversation.R;
 import ru.irafa.conversation.databinding.FragmentConversationBinding;
 import ru.irafa.conversation.model.Message;
@@ -42,9 +43,12 @@ public class ConversationFragment extends Fragment
         mBinding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_conversation, container, false);
         if (savedInstanceState == null) {
-            mPresenter = new ConversationPresenter(this);
+            mPresenter = new ConversationPresenter(
+                    ((ConversationApp) getActivity().getApplication()).getDaoSession(), this);
         } else {
-            mPresenter = ConversationPresenter.fromSavedState(savedInstanceState, this);
+            mPresenter = ConversationPresenter.fromSavedState(
+                    ((ConversationApp) getActivity().getApplication()).getDaoSession(), this,
+                    savedInstanceState);
         }
         return mBinding.getRoot();
     }
