@@ -5,6 +5,6 @@
     <color name="colorAccent">#7C4DFF</color>
 
     <color name="colorGrey">#CFD8DC</color>
-    <color name="recyclerBg">#ECEFF1</color>
+    <color name="windowBackground">#ECEFF1</color>
     <color name="colorWhite">#FFFFFF</color>
 </resources>

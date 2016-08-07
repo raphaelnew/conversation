@@ -32,7 +32,7 @@ public class ConversationPresenter {
 
         void onConversationLoadingError(String message);
 
-        void onConversationChanged(List<Message> messages);
+        void onConversationChanged(@NonNull List<Message> messages);
     }
 
     private DaoSession daoSession;
@@ -137,11 +137,12 @@ public class ConversationPresenter {
             return false;
         }
         long messageCount = daoSession.getMessageDao().queryBuilder().count();
+        List<Message> results =daoSession.getMessageDao().queryBuilder()
+                .orderAsc(MessageDao.Properties.PostedTs).build().list();
         //check if we already have conversation in DB.
-        if (messageCount > 0L) {
+        if (messageCount > 0L && results!=null && !results.isEmpty()) {
             onConversationListener.onConversationChanged(
-                    daoSession.getMessageDao().queryBuilder()
-                            .orderAsc(MessageDao.Properties.PostedTs).build().list());
+                    results);
             return true;
         } else if (errorIfEmpty) {
             processError(null);

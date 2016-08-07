@@ -85,10 +85,11 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseConversationVi
      * Update dataset in the adapter.
      */
     public void updateItems(List<Message> dataset) {
-        // In the test project we don't have any information about who are we so we
-        // get userId from first message and tell Adapter to show this user messages as ours, using
-        // specific viewType.
-        if (selfId < 0L) {
+        // In the test project we don't have any information about who are users, so
+        // we get userId from first message and tell Adapter to show this user messages as ours, using
+        // specific viewType. In production scenario constructor can have additional field where we
+        // provide User model/userId of signed user on this device.
+        if (selfId < 0L && dataset != null && !dataset.isEmpty()) {
             selfId = dataset.get(0).getUserId();
         }
 
