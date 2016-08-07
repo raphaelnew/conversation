@@ -80,7 +80,7 @@ public class ConversationFragment extends Fragment
                 LinearLayoutManager.VERTICAL, false);
         layoutManager.setStackFromEnd(true);
         mAdapter = new ConversationSearchableAdapter(getContext());
-        mBinding.recyclerView.setHasFixedSize(false);
+        mBinding.recyclerView.setHasFixedSize(true);
         mBinding.recyclerView.setLayoutManager(layoutManager);
         mBinding.recyclerView.setAdapter(mAdapter);
         mBinding.retryButton.setOnClickListener(new View.OnClickListener() {
