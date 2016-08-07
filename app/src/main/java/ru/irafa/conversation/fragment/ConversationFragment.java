@@ -1,15 +1,21 @@
 package ru.irafa.conversation.fragment;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 
 import java.util.List;
 
@@ -26,13 +32,15 @@ import ru.irafa.conversation.presenter.ConversationPresenter;
  */
 
 public class ConversationFragment extends Fragment
-        implements ConversationPresenter.OnConversationListener {
+        implements ConversationPresenter.OnConversationListener, SearchView.OnQueryTextListener {
 
     private FragmentConversationBinding mBinding;
 
     private ConversationPresenter mPresenter;
 
     private ConversationAdapter mAdapter;
+
+    private MenuItem mSearchItem;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +88,34 @@ public class ConversationFragment extends Fragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.conversation_actions, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        mSearchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        // Configure the search view and add event listeners
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        searchView.setQueryHint(getString(R.string.search_hint));
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if (mSearchItem != null) {
+            mSearchItem.collapseActionView();
+        }
+        //// TODO: 07.08.16 send request with quert to Search engine.
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        //// TODO: 07.08.16 send request to warm search, or to provide real time results.
+        return false;
     }
 
     @Override

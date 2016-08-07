@@ -5,4 +5,5 @@
     <string name="status_loading">Loading conversation</string>
     <string name="status_empty">No messages yet</string>
     <string name="status_error">Error: <xliff:g example="No internet connection" id="error_message">%s</xliff:g></string>
+    <string name="search_hint">Search messages</string>
 </resources>
