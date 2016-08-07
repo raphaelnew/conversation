@@ -38,6 +38,8 @@
                       android:layout_height="wrap_content"
                       android:id="@+id/content"
                       style="@style/TextAppearance.AppCompat.Body1"
+                      android:textAlignment="gravity"
+                      android:gravity="end"
                       tools:text="Content message"/>
         </LinearLayout>
         <TextView android:layout_width="wrap_content"
