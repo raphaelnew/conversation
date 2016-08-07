@@ -13,6 +13,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.irafa.conversation.ConversationApp;
 import ru.irafa.conversation.dao.DaoSession;
+import ru.irafa.conversation.dao.MessageDao;
 import ru.irafa.conversation.model.Conversation;
 import ru.irafa.conversation.model.Message;
 
@@ -26,6 +27,8 @@ public class ConversationPresenter {
     public interface OnConversationListener {
 
         void onConversationLoading();
+
+        void onConversationEmpty();
 
         void onConversationLoadingError(String message);
 
@@ -56,13 +59,8 @@ public class ConversationPresenter {
         this.onConversationListener = onConversationListener;
         this.daoSession = daoSession;
 
-        long messageCount = daoSession.getMessageDao().queryBuilder().count();
-        //check if we already have conversation in DB.
-        if (messageCount > 0L) {
-            onConversationListener.onConversationChanged(
-                    daoSession.getMessageDao().queryBuilder().build().list());
-        } else if (sync || messageCount <= 0L) {
-            //make sync request only if specifically requested or we don't have any conversation data.
+        boolean gotCachedConversation = sendResultEvent(false);
+        if (sync || !gotCachedConversation) {
             asyncRequest();
         }
     }
@@ -75,7 +73,7 @@ public class ConversationPresenter {
     }
 
     /**
-     * Call this method in {@link Fragment#onDestroyView()} or in {@link
+     * Call this method from {@link Fragment#onDestroyView()} or from {@link
      * AppCompatActivity#onDestroy()}.
      */
     public void destroy() {
@@ -115,24 +113,45 @@ public class ConversationPresenter {
     }
 
     /**
-     * Saves result from API request to DB, If {@link OnConversationListener} exists calls
-     * {@link OnConversationListener#onConversationChanged(List)}.
+     * Saves result from API request to DB, sends result event.
      *
-     * @param conversation model from API request.
+     * @param conversation POJO model from API request.
      */
     private void processResult(Conversation conversation) {
         conversation.saveToDB(daoSession);
-        if (onConversationListener == null) {
-            return;
-        }
-        onConversationListener.onConversationChanged(
-                daoSession.getMessageDao().queryBuilder().build().list());
-
+        sendResultEvent(true);
     }
 
     /**
-     * If {@link OnConversationListener} exists calls
-     * {@link OnConversationListener#onConversationLoadingError(String)} with error message.
+     * Sends {@link OnConversationListener#onConversationChanged(List)} event if at least one
+     * message from conversation available in DB, otherwise sends
+     * {@link OnConversationListener#onConversationEmpty()}
+     *
+     * @param errorIfEmpty if set {@code true} will send {@link OnConversationListener#onConversationEmpty()}
+     *                     if no messages from conversation available in DB.
+     * @return {@code true} at least one message from Conversation available in DB, {@code false}
+     * otherwise.
+     */
+    private boolean sendResultEvent(boolean errorIfEmpty) {
+        if (onConversationListener == null) {
+            return false;
+        }
+        long messageCount = daoSession.getMessageDao().queryBuilder().count();
+        //check if we already have conversation in DB.
+        if (messageCount > 0L) {
+            onConversationListener.onConversationChanged(
+                    daoSession.getMessageDao().queryBuilder()
+                            .orderAsc(MessageDao.Properties.PostedTs).build().list());
+            return true;
+        } else if (errorIfEmpty) {
+            processError(null);
+        }
+        return false;
+    }
+
+    /**
+     * Sends {@link OnConversationListener#onConversationLoadingError(String)} event with error
+     * message.
      *
      * @param message with error.
      */
@@ -140,6 +159,10 @@ public class ConversationPresenter {
         if (onConversationListener == null) {
             return;
         }
-        onConversationListener.onConversationLoadingError(message);
+        if (message != null) {
+            onConversationListener.onConversationLoadingError(message);
+        } else {
+            onConversationListener.onConversationEmpty();
+        }
     }
 }
