@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -21,10 +22,13 @@ import java.util.List;
 
 import ru.irafa.conversation.ConversationApp;
 import ru.irafa.conversation.R;
-import ru.irafa.conversation.adapter.ConversationAdapter;
+import ru.irafa.conversation.adapter.ConversationSearchableAdapter;
 import ru.irafa.conversation.databinding.FragmentConversationBinding;
 import ru.irafa.conversation.model.Message;
 import ru.irafa.conversation.presenter.ConversationPresenter;
+import ru.irafa.conversation.search.MessagesSearchProvider;
+import ru.irafa.conversation.search.SearchEngine;
+import ru.irafa.conversation.search.SearchResult;
 
 /**
  * Fragment showing list of messages from conversation.
@@ -32,13 +36,16 @@ import ru.irafa.conversation.presenter.ConversationPresenter;
  */
 
 public class ConversationFragment extends Fragment
-        implements ConversationPresenter.OnConversationListener, SearchView.OnQueryTextListener {
+        implements ConversationPresenter.OnConversationListener, SearchView.OnQueryTextListener,
+        MenuItemCompat.OnActionExpandListener, SearchEngine.OnSearchListener<Message> {
 
     private FragmentConversationBinding mBinding;
 
     private ConversationPresenter mPresenter;
 
-    private ConversationAdapter mAdapter;
+    private ConversationSearchableAdapter mAdapter;
+
+    private SearchEngine<Message,MessagesSearchProvider> mSearchEngine;
 
     private MenuItem mSearchItem;
 
@@ -72,7 +79,7 @@ public class ConversationFragment extends Fragment
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         layoutManager.setStackFromEnd(true);
-        mAdapter = new ConversationAdapter(getContext());
+        mAdapter = new ConversationSearchableAdapter(getContext());
         mBinding.recyclerView.setHasFixedSize(false);
         mBinding.recyclerView.setLayoutManager(layoutManager);
         mBinding.recyclerView.setAdapter(mAdapter);
@@ -94,8 +101,11 @@ public class ConversationFragment extends Fragment
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         mSearchItem = menu.findItem(R.id.action_search);
+        MenuItemCompat.setOnActionExpandListener(mSearchItem, this);
+
+        mSearchEngine = new SearchEngine<>(new MessagesSearchProvider(ConversationApp.getDaoSession(getContext())), this);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
-        // Configure the search view and add event listeners
+        // Configure the search view and add search related event listeners.
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
@@ -104,18 +114,35 @@ public class ConversationFragment extends Fragment
     }
 
     @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        //// TODO: 07.08.16
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        //// TODO: 07.08.16
+        return true;
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String query) {
         if (mSearchItem != null) {
             mSearchItem.collapseActionView();
         }
-        //// TODO: 07.08.16 send request with quert to Search engine.
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        //// TODO: 07.08.16 send request to warm search, or to provide real time results.
-        return false;
+        mSearchEngine.search(newText);
+        return true;
+    }
+
+    @Override
+    public void onSearchCompleted(boolean success,
+            @Nullable SearchResult<Message> searchResult) {
+        mAdapter.applySearchResult(searchResult);
     }
 
     @Override
@@ -161,11 +188,11 @@ public class ConversationFragment extends Fragment
     }
 
     @Override
-    public void onConversationChanged(List<Message> messages) {
+    public void onConversationChanged(@NonNull List<Message> messages) {
         mBinding.retryButton.setVisibility(View.GONE);
         mBinding.emptyTextview.setVisibility(View.GONE);
         if (mAdapter != null) {
-            mAdapter.updateItems(messages);
+            mAdapter.updateDataSet(messages);
         }
     }
 }
