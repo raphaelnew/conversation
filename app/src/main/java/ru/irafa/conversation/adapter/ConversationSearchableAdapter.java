@@ -75,5 +75,4 @@ public class ConversationSearchableAdapter
         super.updateDataSet(dataset);
     }
 
-
 }

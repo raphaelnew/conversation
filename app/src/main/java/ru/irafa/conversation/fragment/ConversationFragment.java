@@ -143,6 +143,11 @@ public class ConversationFragment extends Fragment
     public void onSearchCompleted(boolean success,
             @Nullable SearchResult<Message> searchResult) {
         mAdapter.applySearchResult(searchResult);
+        if (success && searchResult != null && !searchResult.getResults().isEmpty()) {
+            //Scroll RecyclerView to first item in search results.
+            int scrollToPosition = mAdapter.getDataItemPosition(searchResult.getResults().get(0));
+            mBinding.recyclerView.getLayoutManager().scrollToPosition(scrollToPosition);
+        }
     }
 
     @Override

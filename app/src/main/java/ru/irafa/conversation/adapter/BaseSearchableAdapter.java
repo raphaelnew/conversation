@@ -72,4 +72,16 @@ public abstract class BaseSearchableAdapter<M, VH extends BaseSearchableViewHold
         mSearchResult = searchResult;
         notifyDataSetChanged();
     }
+
+    /**
+     * Return position of the data item in the adapter dataset.
+     *
+     * @return position of the data item, 0 otherwise.
+     */
+    public int getDataItemPosition(M dataItem) {
+        if (!mDataset.contains(dataItem)) {
+            return 0;
+        }
+        return mDataset.indexOf(dataItem);
+    }
 }
