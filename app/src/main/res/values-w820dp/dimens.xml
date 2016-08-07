@@ -4,6 +4,7 @@
     <!--conversation item-->
     <dimen name="avatar_margin">24dp</dimen>
     <dimen name="conversation_margin">24dp</dimen>
+    <dimen name="conversation_margin_bottom">12dp</dimen>
     <dimen name="conversation_margin_start">80dp</dimen>
     <dimen name="conversation_margin_end">24dp</dimen>
     <dimen name="conversation_padding_text">4dp</dimen>

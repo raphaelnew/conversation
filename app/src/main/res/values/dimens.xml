@@ -7,6 +7,7 @@
     <dimen name="avatar_padding">4dp</dimen>
     <dimen name="avatar_margin">16dp</dimen>
     <dimen name="conversation_margin">16dp</dimen>
+    <dimen name="conversation_margin_bottom">8dp</dimen>
     <dimen name="conversation_margin_start">72dp</dimen>
     <dimen name="conversation_margin_end">16dp</dimen>
     <dimen name="conversation_padding_text">2dp</dimen>

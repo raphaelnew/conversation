@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/message_item"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:minHeight="@dimen/conversation_min_height">
+    <!--ConstraintLayout is not final stable product, so I used this item layout as example of RelativeLayout and LinearLayout usage.-->
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/message_item"
+                    android:background="@drawable/message_item_bg"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:minHeight="@dimen/conversation_min_height">
         <ImageView android:layout_width="48dp"
                    android:layout_height="48dp"
                    android:id="@+id/avatar"
@@ -50,6 +50,7 @@
                   android:paddingEnd="@dimen/conversation_bubble_padding"
                   android:paddingBottom="@dimen/conversation_padding_text"
                   android:paddingTop="@dimen/conversation_padding_text"
+                  android:layout_marginBottom="@dimen/conversation_margin_bottom"
                   tools:text="Timestamp"/>
     </RelativeLayout>
 </layout>
