@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/message_item"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="@dimen/conversation_min_height">
+        <ImageView android:layout_width="48dp"
+                   android:layout_height="48dp"
+                   android:id="@+id/avatar"
+                   android:layout_alignParentStart="true"
+                   android:layout_alignParentTop="true"
+                   tools:src="@mipmap/ic_launcher"
+                   android:layout_margin="@dimen/avatar_margin"
+                   android:padding="@dimen/avatar_padding"/>
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/message_bubble"
+                      android:layout_marginTop="@dimen/conversation_margin"
+                      android:background="@drawable/message_bubble_white"
+                      android:layout_alignParentStart="true"
+                      android:layout_alignParentTop="true"
+                      android:layout_marginStart="@dimen/conversation_margin_start"
+                      android:layout_marginEnd="@dimen/conversation_margin_end"
+                      android:orientation="vertical"
+                      android:gravity="start">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/name"
+                      style="@style/TextAppearance.AppCompat.Body2"
+                      android:paddingBottom="@dimen/conversation_padding_text"
+                      tools:text="User Name"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/content"
+                      style="@style/TextAppearance.AppCompat.Body1"
+                      tools:text="Content message"/>
+        </LinearLayout>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/date"
+                  style="@style/TextAppearance.AppCompat.Caption"
+                  android:layout_alignStart="@+id/message_bubble"
+                  android:layout_below="@+id/message_bubble"
+                  android:paddingStart="@dimen/conversation_bubble_padding"
+                  android:paddingEnd="@dimen/conversation_bubble_padding"
+                  android:paddingBottom="@dimen/conversation_padding_text"
+                  android:paddingTop="@dimen/conversation_padding_text"
+                  tools:text="Timestamp"/>
+    </RelativeLayout>
+</layout>

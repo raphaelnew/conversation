@@ -1,5 +1,16 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!--conversation fragment-->
+    <dimen name="retry_button_margin">16dp</dimen>
+    <dimen name="recycler_padding">8dp</dimen>
+    <!--conversation item-->
+    <dimen name="avatar_size">48dp</dimen>
+    <dimen name="avatar_padding">4dp</dimen>
+    <dimen name="avatar_margin">16dp</dimen>
+    <dimen name="conversation_margin">16dp</dimen>
+    <dimen name="conversation_margin_start">72dp</dimen>
+    <dimen name="conversation_margin_end">16dp</dimen>
+    <dimen name="conversation_padding_text">2dp</dimen>
+    <dimen name="conversation_min_height">88dp</dimen>
+    <dimen name="conversation_bubble_radius">4dp</dimen>
+    <dimen name="conversation_bubble_padding">8dp</dimen>
 </resources>

@@ -1,9 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
     <android.support.constraint.ConstraintLayout
             android:id="@+id/fragment_conversation"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/recyclerBg">
+        <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:id="@+id/recycler_view"
+                                                android:paddingTop="@dimen/recycler_padding"
+                                                android:paddingBottom="@dimen/recycler_padding"
+                                                android:clipToPadding="false"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  style="@style/TextAppearance.AppCompat.Subhead"
+                  android:id="@+id/empty_textview"
+                  android:textAlignment="center"
+                  app:layout_constraintTop_toTopOf="parent"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintLeft_toLeftOf="parent"
+                  app:layout_constraintRight_toRightOf="parent"
+                  android:text="@string/status_loading"
+                  android:visibility="gone"
+                  tools:visibility="visible"/>
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/retry_button"
+                android:layout_marginTop="@dimen/retry_button_margin"
+                app:layout_constraintTop_toBottomOf="@+id/empty_textview"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                android:text="@string/button_retry"
+                android:visibility="gone"
+                tools:visibility="visible"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

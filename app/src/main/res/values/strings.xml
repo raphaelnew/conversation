@@ -1,4 +1,8 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">Conversation</string>
     <string name="action_search">Search</string>
+    <string name="button_retry">Retry</string>
+    <string name="status_loading">Loading conversation</string>
+    <string name="status_empty">No messages yet</string>
+    <string name="status_error">Error: <xliff:g example="No internet connection" id="error_message">%s</xliff:g></string>
 </resources>
