@@ -32,6 +32,10 @@ public class Conversation {
         return messages;
     }
 
+    /**
+     * Saves all users and messages to local DB.
+     * @param daoSession
+     */
     public void saveToDB(DaoSession daoSession) {
         daoSession.getUserDao().insertOrReplaceInTx(users);
         daoSession.getMessageDao().insertOrReplaceInTx(messages);
