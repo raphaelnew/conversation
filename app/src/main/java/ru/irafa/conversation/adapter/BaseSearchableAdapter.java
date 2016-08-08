@@ -18,7 +18,7 @@ import ru.irafa.conversation.search.SearchResult;
 public abstract class BaseSearchableAdapter<M, VH extends BaseSearchableViewHolder<M>>
         extends RecyclerView.Adapter<VH> {
 
-    private List<M> mDataset = new ArrayList<M>();
+    private List<M> mDataset = new ArrayList<>();
 
     private SearchResult<M> mSearchResult;
 

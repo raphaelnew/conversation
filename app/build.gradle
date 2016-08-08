@@ -49,6 +49,11 @@ android {
         schemaVersion 1
         daoPackage 'ru.irafa.conversation.dao'
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {

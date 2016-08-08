@@ -1,6 +1,6 @@
 <resources>
     <!--conversation fragment-->
-    <dimen name="retry_button_margin">24dp</dimen>
+    <dimen name="status_padding">24dp</dimen>
     <!--conversation item-->
     <dimen name="avatar_margin">24dp</dimen>
     <dimen name="conversation_margin">24dp</dimen>

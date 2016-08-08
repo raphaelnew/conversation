@@ -62,7 +62,6 @@ public class ConversationSearchableAdapter
         return (getDataset().get(position).getUserId() == mSelfId) ? VIEW_TYPE_SELF : VIEW_TYPE_OTHER;
     }
 
-
     @Override
     public void updateDataSet(List<Message> dataset) {
         // In the test project we don't have any information about who are users, so
