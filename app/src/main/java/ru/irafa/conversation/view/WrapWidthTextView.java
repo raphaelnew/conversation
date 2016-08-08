@@ -1,9 +1,9 @@
 package ru.irafa.conversation.view;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 /**
  * Fix for wrap_content in multiple line TextView having not correct width. Based on the answer
@@ -12,7 +12,7 @@ import android.widget.TextView;
  * Created on 08.08.16.
  */
 
-public class WrapWidthTextView extends TextView {
+public class WrapWidthTextView extends AppCompatTextView{
 
     public WrapWidthTextView(Context context) {
         super(context);
@@ -26,15 +26,9 @@ public class WrapWidthTextView extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-    public WrapWidthTextView(Context context, AttributeSet attrs, int defStyleAttr,
-            int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         Layout layout = getLayout();
         if (layout != null) {
             int width = (int) Math.ceil(getMaxLineWidth(layout))
