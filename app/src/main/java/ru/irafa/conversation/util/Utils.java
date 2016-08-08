@@ -1,6 +1,7 @@
 package ru.irafa.conversation.util;
 
 import android.graphics.Typeface;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -11,8 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import ru.irafa.conversation.R;
-
-import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 
 /**
  * Utility methods.
@@ -45,37 +44,43 @@ public class Utils {
     }
 
     /**
-     * Highlights part of the test in TextView.
+     * Highlights part of the text and set it to TextView.
      *
-     * @param textView      {@link TextView} object apply text highlight to.
-     * @param highLightPart text to be highlighted.
+     * @param textView      {@link TextView} object to set text to.
+     * @param highLightPart part of text to be highlighted.
      */
-    public static void highLightText(TextView textView, String highLightPart) {
+    public static void highLightText(@Nullable TextView textView, @Nullable String highLightPart) {
         if (textView == null || highLightPart == null || highLightPart.isEmpty()) {
             return;
         }
-        String originalText = textView.getText().toString();
-        SpannableStringBuilder sb = new SpannableStringBuilder(originalText);
-        // String indexOf() is case sensitive, we lowercase the original text but only after we
-        // create SpannableStringBuilder so we don't break original text style.
-        originalText = originalText.toLowerCase();
         int color = ContextCompat.getColor(textView.getContext(), R.color.colorAccent);
-        int oldStartIndex = -1;
+        SpannableStringBuilder sb = new SpannableStringBuilder(textView.getText());
+        // String indexOf() is case sensitive, we work on lowercase version.
+        String originalText = textView.getText().toString().toLowerCase();
         int startIndex = 0;
         int endIndex = 0;
         // highLightPart might occur multiple times in the same text.
-        while (oldStartIndex != startIndex) {
-            //Find start and end character positions
+        while (startIndex >= 0) {
+            // Find start and end character positions of highlight part.
             startIndex = originalText.indexOf(highLightPart, endIndex);
-            endIndex = startIndex + highLightPart.length();
-            if (startIndex < 0 || endIndex < 0) {
-                break;
+            if (startIndex < 0) {
+                endIndex = -1;
+            } else {
+                endIndex = startIndex + highLightPart.length();
+            }
+            if (startIndex < 0 || endIndex < 0 || startIndex == endIndex) {
+                continue;
             }
             sb.setSpan(new ForegroundColorSpan(color), startIndex, endIndex,
-                    SPAN_EXCLUSIVE_EXCLUSIVE);
+                    0);
             sb.setSpan(new StyleSpan(Typeface.BOLD), startIndex, endIndex,
-                    SPAN_EXCLUSIVE_EXCLUSIVE);
+                    0);
         }
-        textView.setText(sb);
+        if (sb.getSpans(0, originalText.length(), ForegroundColorSpan.class) != null) {
+            // To avoid android warning "getTextAfterCursor on inactive InputConnection" more
+            // efficient way.
+            textView.setText(null);
+            textView.append(sb);
+        }
     }
 }
