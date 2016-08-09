@@ -27,10 +27,13 @@ import ru.irafa.conversation.model.Message;
 
 public class MessagesSearchProvider extends BaseSearchProvider<Message> {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final String SEARCH_DATE_FORMAT = "yyyy-MM-dd";
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final String SEARCH_TAG_BEFORE = "before:";
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final String SEARCH_TAG_AFTER = "after:";
 
     private SimpleDateFormat dateFormat;
@@ -104,6 +107,7 @@ public class MessagesSearchProvider extends BaseSearchProvider<Message> {
         fullTextSearchQuery = sb.toString().trim();
     }
 
+    @SuppressWarnings("EmptyCatchBlock")
     private StringBuffer searchBeforeTag(@NonNull StringBuffer sb) {
         // Regex pattern (?i)\\s?\\bbefore:\\d{4}-[01]\\d-[0-3]\\d\\b\\s? - case-insensitive,
         // checks key word,
@@ -134,6 +138,7 @@ public class MessagesSearchProvider extends BaseSearchProvider<Message> {
         return sb;
     }
 
+    @SuppressWarnings("EmptyCatchBlock")
     private StringBuffer searchAfterTag(@NonNull StringBuffer sb) {
         // Regex pattern (?i)\\s?\\bafter:\\d{4}-[01]\\d-[0-3]\\d\\b\\s? - case-insensitive,
         // checks key word,
@@ -166,6 +171,7 @@ public class MessagesSearchProvider extends BaseSearchProvider<Message> {
         return sb;
     }
 
+    @SuppressWarnings("unchecked")
     @Nullable
     private List<Message> getSearchResultsFromDB() {
         if (dbQuery == null) {

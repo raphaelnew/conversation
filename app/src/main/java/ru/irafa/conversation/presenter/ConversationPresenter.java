@@ -35,7 +35,7 @@ public class ConversationPresenter {
         void onConversationChanged(@NonNull List<Message> messages);
     }
 
-    private DaoSession daoSession;
+    private final DaoSession daoSession;
 
     private OnConversationListener onConversationListener;
 
@@ -43,7 +43,7 @@ public class ConversationPresenter {
             @NonNull OnConversationListener onConversationListener,
             @Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            //// TODO: 06.08.16 restore state after device configuration changes.
+            // Restore any temporary state after device configuration changes.
         }
         return new ConversationPresenter(daoSession, onConversationListener, false);
     }
@@ -53,7 +53,7 @@ public class ConversationPresenter {
         this(daoSession, onConversationListener, true);
     }
 
-    public ConversationPresenter(DaoSession daoSession,
+    private ConversationPresenter(DaoSession daoSession,
             @NonNull OnConversationListener onConversationListener,
             boolean sync) {
         this.onConversationListener = onConversationListener;
@@ -82,7 +82,7 @@ public class ConversationPresenter {
     }
 
     public void onSaveInstanceState(Bundle outState) {
-        //// TODO: 06.08.16 save state between device configuration changes.
+        //// Save any temporary state between device configuration changes.
     }
 
     /**

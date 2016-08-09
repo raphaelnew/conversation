@@ -1,7 +1,9 @@
 package ru.irafa.conversation.search;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,7 +16,7 @@ public class SearchResult<M> {
     public SearchResult() {
     }
 
-    private List<M> results;
+    private List<M> results = Collections.emptyList();
 
     private String fullTextSearchQuery;
 
@@ -26,7 +28,7 @@ public class SearchResult<M> {
         this.fullTextSearchQuery = fullTextSearchQuery;
     }
 
-    @Nullable
+    @NonNull
     public List<M> getResults() {
         return results;
     }

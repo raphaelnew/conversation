@@ -1,6 +1,5 @@
 package ru.irafa.conversation.util;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,11 +22,6 @@ public class UtilsTest {
 
         TimeZone timeZone = TimeZone.getTimeZone("UTC");
         TimeZone.setDefault(timeZone);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
     }
 
     @Test

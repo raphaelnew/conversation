@@ -20,11 +20,11 @@ public abstract class BaseSearchableAdapter<M, VH extends BaseSearchableViewHold
 
     private List<M> mDataset = new ArrayList<>();
 
-    private SearchResult<M> mSearchResult;
+    private SearchResult<M> mSearchResult = null;
 
-    Context mContext;
+    final Context mContext;
 
-    public BaseSearchableAdapter(Context context) {
+    BaseSearchableAdapter(Context context) {
         this.mContext = context;
     }
 
@@ -52,14 +52,14 @@ public abstract class BaseSearchableAdapter<M, VH extends BaseSearchableViewHold
      *
      * @return data set.
      */
-    public List<M> getDataset() {
+    List<M> getDataset() {
         return mDataset;
     }
 
     /**
      * Update data set in the adapter.
      */
-    public void updateDataSet(List<M> dataset) {
+    void updateDataSet(List<M> dataset) {
         mDataset = dataset;
         notifyDataSetChanged();
     }

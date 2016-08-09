@@ -14,6 +14,7 @@ import ru.irafa.conversation.dao.DaoMaster;
 import ru.irafa.conversation.dao.DaoSession;
 
 /**
+ * Conversation Application class provides access to API interface, and DB session.
  * Created by Raphael Gilyazitdinov on 06.08.16.
  */
 

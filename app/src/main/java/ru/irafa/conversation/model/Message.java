@@ -8,7 +8,6 @@ import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
@@ -61,14 +60,6 @@ public class Message implements Parcelable{
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-
-    @Keep
-    public Message(long id, long userId, long postedTs, String content) {
-        this.id = id;
-        this.userId = userId;
-        this.postedTs = postedTs;
-        this.content = content;
-    }
 
     @Generated(hash = 637306882)
     public Message() {

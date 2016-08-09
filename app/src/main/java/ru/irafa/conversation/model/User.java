@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.Unique;
 
@@ -37,13 +36,6 @@ public class User implements Parcelable {
     @Property
     private String avatarUrl;
 
-    @Keep
-    public User(long id, String name, String avatarUrl) {
-        this.id = id;
-        this.name = name;
-        this.avatarUrl = avatarUrl;
-    }
-
     @Generated(hash = 586692638)
     public User() {
     }
@@ -52,6 +44,13 @@ public class User implements Parcelable {
         id = in.readLong();
         name = in.readString();
         avatarUrl = in.readString();
+    }
+
+    @Generated(hash = 872006314)
+    public User(long id, String name, String avatarUrl) {
+        this.id = id;
+        this.name = name;
+        this.avatarUrl = avatarUrl;
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

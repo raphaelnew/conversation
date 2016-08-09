@@ -13,9 +13,9 @@ import android.view.View;
 
 abstract public class BaseSearchableViewHolder<M> extends RecyclerView.ViewHolder {
 
-    Context mContext;
+    final Context mContext;
 
-    public BaseSearchableViewHolder(Context context, View itemView) {
+    BaseSearchableViewHolder(Context context, View itemView) {
         super(itemView);
         mContext = context;
     }

@@ -16,12 +16,7 @@ public class Conversation {
     private List<Message> messages;
 
     public Conversation() {
-
-    }
-
-    public Conversation(List<User> users, List<Message> messages) {
-        this.users = users;
-        this.messages = messages;
+        // for GSON.
     }
 
     public List<User> getUsers() {
@@ -34,7 +29,7 @@ public class Conversation {
 
     /**
      * Saves all users and messages to local DB.
-     * @param daoSession
+     * @param daoSession {@link DaoSession}
      */
     public void saveToDB(DaoSession daoSession) {
         daoSession.getUserDao().insertOrReplaceInTx(users);

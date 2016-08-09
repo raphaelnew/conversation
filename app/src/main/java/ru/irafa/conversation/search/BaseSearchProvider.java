@@ -5,16 +5,16 @@ package ru.irafa.conversation.search;
  * Created by Raphael Gilyazitdinov on 07.08.16.
  */
 
-abstract public class BaseSearchProvider<M> {
+abstract class BaseSearchProvider<M> {
 
-    public BaseSearchProvider() {
+    BaseSearchProvider() {
         initSearchProvider();
     }
 
     /**
      * Initialize search providers variables that should be persistant across lifecircle.
      */
-    public abstract void initSearchProvider();
+    protected abstract void initSearchProvider();
 
     /**
      * Implement model related search logic, return results as {@link SearchResult}.

@@ -28,13 +28,13 @@ public class ConversationSearchableAdapter
 
     @IntDef({VIEW_TYPE_SELF, VIEW_TYPE_OTHER})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface ViewType {
+    private @interface ViewType {
 
     }
 
-    public static final int VIEW_TYPE_SELF = 0;
+    private static final int VIEW_TYPE_SELF = 0;
 
-    public static final int VIEW_TYPE_OTHER = 1;
+    private static final int VIEW_TYPE_OTHER = 1;
 
     private long mSelfId = -1L;
 

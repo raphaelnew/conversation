@@ -18,9 +18,9 @@ public class SearchEngine<M, S extends BaseSearchProvider<M>> {
         void onSearchCompleted(boolean success, @Nullable SearchResult<M> result);
     }
 
-    private OnSearchListener<M> onSearchListener;
+    private final OnSearchListener<M> onSearchListener;
 
-    private S searchProvider;
+    private final S searchProvider;
 
     public SearchEngine(@NonNull S searchProvider, @NonNull OnSearchListener<M> onSearchListener) {
         this.searchProvider = searchProvider;
@@ -35,7 +35,7 @@ public class SearchEngine<M, S extends BaseSearchProvider<M>> {
      */
     public void search(String query) {
         SearchResult<M> result = searchProvider.provideResult(query);
-        if (result.getResults() != null && !result.getResults().isEmpty()) {
+        if (!result.getResults().isEmpty()) {
             onSearchListener.onSearchCompleted(true, result);
         } else {
             onSearchListener.onSearchCompleted(false, null);

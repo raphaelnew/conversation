@@ -8,6 +8,7 @@
             android:layout_height="match_parent">
         <fragment android:name="ru.irafa.conversation.fragment.ConversationFragment"
                   android:layout_width="match_parent"
-                  android:layout_height="match_parent"/>
+                  android:layout_height="match_parent"
+                  android:id="@+id/fragment_conversation"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

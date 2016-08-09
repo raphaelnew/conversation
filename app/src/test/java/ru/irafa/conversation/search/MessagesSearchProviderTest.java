@@ -1,7 +1,6 @@
 package ru.irafa.conversation.search;
 
 import org.greenrobot.greendao.database.Database;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +28,7 @@ import static junit.framework.Assert.assertNull;
 @RunWith(RobolectricTestRunner.class)
 public class MessagesSearchProviderTest {
 
-    DaoSession mDaoSession;
+    private DaoSession mDaoSession;
 
     @Before
     public void setUp() throws Exception {
@@ -84,15 +83,10 @@ public class MessagesSearchProviderTest {
         mDaoSession.getMessageDao().insert(message4);
     }
 
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
     @Test
     public void testSearchResultObject() throws Exception {
         MessagesSearchProvider messagesSearchProvider = new MessagesSearchProvider(mDaoSession);
-        SearchResult<Message> searchResult = null;
+        SearchResult<Message> searchResult;
         // Normal scenario case 1
         String searchQuery = "test";
         String expectedFullTextSearchQuery = "test";
@@ -110,15 +104,13 @@ public class MessagesSearchProviderTest {
 
         assertNotNull(searchResult);
         assertNull(searchResult.getFullTextSearchQuery());
-        assertNull(searchResult.getResults());
+        assertEquals(0, searchResult.getResults().size());
         // Edge case
-        searchQuery = null;
-
-        searchResult = messagesSearchProvider.provideResult(searchQuery);
+        searchResult = messagesSearchProvider.provideResult(null);
 
         assertNotNull(searchResult);
         assertNull(searchResult.getFullTextSearchQuery());
-        assertNull(searchResult.getResults());
+        assertEquals(0, searchResult.getResults().size());
 
         // Edge case
         searchQuery = "!@#$%^&*()_+{}[]:;'|<>/?";
@@ -135,12 +127,12 @@ public class MessagesSearchProviderTest {
     @Test
     public void testFullTextSearch() throws Exception {
         MessagesSearchProvider messagesSearchProvider = new MessagesSearchProvider(mDaoSession);
-        SearchResult<Message> searchResult = null;
+        SearchResult<Message> searchResult;
         // Normal scenario case 1
         String searchQuery = "test";
         String expectedFullTextSearchQuery = "test";
         int expectedResultSize = 4;
-        int expectedMessageId = 0;
+        int expectedMessageId;
 
         searchResult = messagesSearchProvider.provideResult(searchQuery);
 
@@ -178,7 +170,7 @@ public class MessagesSearchProviderTest {
     @Test
     public void testBeforeTag() throws Exception{
         MessagesSearchProvider messagesSearchProvider = new MessagesSearchProvider(mDaoSession);
-        SearchResult<Message> searchResult = null;
+        SearchResult<Message> searchResult;
         // Normal scenario case 1
         String searchQuery = "before:2016-07-04";
         String expectedFullTextSearchQuery = "";
@@ -207,13 +199,13 @@ public class MessagesSearchProviderTest {
         searchResult = messagesSearchProvider.provideResult(searchQuery);
 
         assertNull(searchResult.getFullTextSearchQuery());
-        assertNull(searchResult.getResults());
+        assertEquals(0, searchResult.getResults().size());
     }
 
     @Test
     public void testAfterTag() throws Exception{
         MessagesSearchProvider messagesSearchProvider = new MessagesSearchProvider(mDaoSession);
-        SearchResult<Message> searchResult = null;
+        SearchResult<Message> searchResult;
         // Normal scenario case 1
         String searchQuery = "after:2016-07-04";
         String expectedFullTextSearchQuery = "";
@@ -240,13 +232,13 @@ public class MessagesSearchProviderTest {
         searchResult = messagesSearchProvider.provideResult(searchQuery);
 
         assertNull(searchResult.getFullTextSearchQuery());
-        assertNull(searchResult.getResults());
+        assertEquals(0, searchResult.getResults().size());
     }
 
     @Test
     public void testBeforeAfterTags() throws Exception{
         MessagesSearchProvider messagesSearchProvider = new MessagesSearchProvider(mDaoSession);
-        SearchResult<Message> searchResult = null;
+        SearchResult<Message> searchResult;
         // Normal scenario case 1
         String searchQuery = "before:2016-07-22 after:2016-07-02";
         String expectedFullTextSearchQuery = "";
@@ -273,13 +265,13 @@ public class MessagesSearchProviderTest {
         searchResult = messagesSearchProvider.provideResult(searchQuery);
 
         assertNull(searchResult.getFullTextSearchQuery());
-        assertNull(searchResult.getResults());
+        assertEquals(0, searchResult.getResults().size());
     }
 
     @Test
     public void testBeforeAfterFTSTags() throws Exception{
         MessagesSearchProvider messagesSearchProvider = new MessagesSearchProvider(mDaoSession);
-        SearchResult<Message> searchResult = null;
+        SearchResult<Message> searchResult;
         // Normal scenario case 1
         String searchQuery = "before:2016-07-22 !@#$%^&*() after:2016-06-15";
         String expectedFullTextSearchQuery = "!@#$%^&*()";
@@ -308,6 +300,6 @@ public class MessagesSearchProviderTest {
         searchResult = messagesSearchProvider.provideResult(searchQuery);
 
         assertNull(searchResult.getFullTextSearchQuery());
-        assertNull(searchResult.getResults());
+        assertEquals(0, searchResult.getResults().size());
     }
 }
