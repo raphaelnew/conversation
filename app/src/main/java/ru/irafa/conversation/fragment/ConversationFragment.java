@@ -6,7 +6,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
@@ -188,7 +190,14 @@ public class ConversationFragment extends Fragment
             mBinding.emptyTextview.setVisibility(View.VISIBLE);
             mBinding.retryButton.setVisibility(View.VISIBLE);
         }else {
-            // TODO: 07.08.16 add snackbar if error occurs while we showing content from DB.
+            Snackbar.make(mBinding.fragmentConversation, message, Snackbar.LENGTH_LONG).setAction(
+                    getString(R.string.button_retry), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mPresenter.refresh();
+                        }
+                    }).setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent))
+                    .show();
         }
     }
 
