@@ -19,6 +19,15 @@ Recommended Android Studio 2.2 preview 7.
 
 ## Notes
 Most of the "//" comments in the code are only for clarification why I made specific decision, I don't write so much comments in the code usually.
+Time spent: 16 hours - all required functionality. + around 3 hours on writing tests/refactoring/optimizations/fixes.
+
+## Tested on devices
+- Nexus 6p (stable API 23).
+- Nexus 6 (API 24)
+- Nexus 5 (API 21)
+- Nexus 4 (API 19) emulator provides strange scrolling behaviour because of ConstraintLayout and/or Data Binding.
+- Nexus 9 (API 24)
+- Nvidia Shield Portable (API 21 hardware keyboard/d-pad navigation).
 
 ## TODO
 - More unit test coverage, add Instrumentation tests.
