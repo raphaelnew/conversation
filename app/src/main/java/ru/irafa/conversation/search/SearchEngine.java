@@ -35,7 +35,7 @@ public class SearchEngine<M, S extends BaseSearchProvider<M>> {
      */
     public void search(String query) {
         SearchResult<M> result = searchProvider.provideResult(query);
-        if (result != null && result.getResults() != null && !result.getResults().isEmpty()) {
+        if (result.getResults() != null && !result.getResults().isEmpty()) {
             onSearchListener.onSearchCompleted(true, result);
         } else {
             onSearchListener.onSearchCompleted(false, null);

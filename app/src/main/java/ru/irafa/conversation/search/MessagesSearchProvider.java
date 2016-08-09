@@ -4,12 +4,14 @@ import org.greenrobot.greendao.query.Query;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,19 +43,21 @@ public class MessagesSearchProvider extends BaseSearchProvider<Message> {
 
     private Query dbQuery;
 
-    public MessagesSearchProvider(DaoSession daoSession) {
+    public MessagesSearchProvider(@Nullable DaoSession daoSession) {
         super();
         // Make SQLite query with 'LIKE' operator which is used to match text values against a pattern
         // using wildcards. GreenDao has great implementation for that operator.
         //
         // We initialize DB query here because reuse more efficient than creating new one, we only
         // change parameters when needed.
-        this.dbQuery = daoSession.getMessageDao().queryBuilder()
-                .orderAsc(MessageDao.Properties.PostedTs)
-                .where(MessageDao.Properties.PostedTs.lt(beforeTimestamp))
-                .where(MessageDao.Properties.PostedTs.gt(afterTimestamp))
-                .where(MessageDao.Properties.Content.like("%" + fullTextSearchQuery + "%"))
-                .build();
+        if (daoSession != null) {
+            this.dbQuery = daoSession.getMessageDao().queryBuilder()
+                    .orderAsc(MessageDao.Properties.PostedTs)
+                    .where(MessageDao.Properties.PostedTs.lt(beforeTimestamp))
+                    .where(MessageDao.Properties.PostedTs.gt(afterTimestamp))
+                    .where(MessageDao.Properties.Content.like("%" + fullTextSearchQuery + "%"))
+                    .build();
+        }
     }
 
     @Override
@@ -64,23 +68,22 @@ public class MessagesSearchProvider extends BaseSearchProvider<Message> {
 
     @Override
     public SearchResult<Message> provideResult(String query) {
+        SearchResult<Message> searchResult = new SearchResult<>();
         if (query == null || query.isEmpty()) {
-            return null;
+            return searchResult;
         }
         validateTagsAndQuery(query);
         List<Message> results = getSearchResultsFromDB();
 
         if (results != null && !results.isEmpty()) {
-            SearchResult<Message> searchResult = new SearchResult<>();
             searchResult.setFullTextSearchQuery(fullTextSearchQuery);
             searchResult.setResults(results);
-            return searchResult;
         }
-        return null;
+        return searchResult;
     }
 
     /**
-     * Validates search query, finds supported tags, prepares for data fetching from DB.
+     * Validates search query, finds supported tags, prepare for data fetching from DB.
      */
     private void validateTagsAndQuery(@NonNull String query) {
         query = query.trim();
@@ -90,11 +93,14 @@ public class MessagesSearchProvider extends BaseSearchProvider<Message> {
 
         StringBuffer sb = new StringBuffer();
         sb.append(query);
+        Log.d("Search", sb.toString());
         sb = searchBeforeTag(sb);
+        Log.d("Search", sb.toString());
         sb = searchAfterTag(sb);
+        Log.d("Search", sb.toString());
         // sb = searchXXXTag(sb); //Example of new tag support
         // We can easily add support for new search tag/patter here passing
-        // StringBuffer that is already cleaned from tags that were recognised before.
+        // StringBuffer that is already cleaned from tags that recognised.
         fullTextSearchQuery = sb.toString().trim();
     }
 
@@ -117,11 +123,11 @@ public class MessagesSearchProvider extends BaseSearchProvider<Message> {
         }
         beforeMatcher.appendTail(sb);
         // Second step we validate that date is correct, can be parsed by SimpleDateFormat, this
-        // will eliminate situations with wrong days of the month like february 29 etc.
+        // will eliminate situations with wrong days of the month like february 30 etc.
         if (beforeTag != null && !beforeTag.isEmpty()) {
             try {
                 Date beforeDate = dateFormat.parse(beforeTag);
-                beforeTimestamp = beforeDate.getTime() / 1000L;
+                beforeTimestamp = beforeDate.getTime() / 1000L;// To unix timestamp
             } catch (ParseException ex) {
             }
         }
@@ -147,11 +153,13 @@ public class MessagesSearchProvider extends BaseSearchProvider<Message> {
         }
         afterMatcher.appendTail(sb);
         // Second step we validate that date is correct, can be parsed by SimpleDateFormat, this
-        // will eliminate situations with wrong days of the month like february 29 etc.
+        // will eliminate situations with wrong days of the month like february 30 etc.
         if (afterTag != null && !afterTag.isEmpty()) {
             try {
+                //We add one day to date so "After" is next day after the date entered.
                 Date afterDate = dateFormat.parse(afterTag);
-                afterTimestamp = afterDate.getTime() / 1000L;
+                afterDate.setTime(afterDate.getTime() + TimeUnit.DAYS.toMillis(1));
+                afterTimestamp = afterDate.getTime() / 1000L;// To unix timestamp
             } catch (ParseException ex) {
             }
         }
@@ -160,6 +168,9 @@ public class MessagesSearchProvider extends BaseSearchProvider<Message> {
 
     @Nullable
     private List<Message> getSearchResultsFromDB() {
+        if (dbQuery == null) {
+            return null;
+        }
         List<Message> results;
         // Tweak DB search query parameters based on tags and FTS.
         if (beforeTimestamp >= 0L && afterTimestamp >= 0L) {

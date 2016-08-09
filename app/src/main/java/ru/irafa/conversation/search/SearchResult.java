@@ -1,5 +1,7 @@
 package ru.irafa.conversation.search;
 
+import android.support.annotation.Nullable;
+
 import java.util.List;
 
 /**
@@ -24,10 +26,12 @@ public class SearchResult<M> {
         this.fullTextSearchQuery = fullTextSearchQuery;
     }
 
+    @Nullable
     public List<M> getResults() {
         return results;
     }
 
+    @Nullable
     public String getFullTextSearchQuery() {
         return fullTextSearchQuery;
     }
