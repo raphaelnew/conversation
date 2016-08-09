@@ -7,6 +7,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Property;
+import org.greenrobot.greendao.annotation.Unique;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -25,6 +26,7 @@ import android.os.Parcelable;
 )
 public class User implements Parcelable {
 
+    @Unique
     @Id(autoincrement = false)
     private long id;
 

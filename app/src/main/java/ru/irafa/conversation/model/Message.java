@@ -11,6 +11,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Unique;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -33,6 +34,7 @@ import ru.irafa.conversation.dao.UserDao;
 )
 public class Message implements Parcelable{
 
+    @Unique
     @Id(autoincrement = false)
     private long id;
 
@@ -183,14 +185,6 @@ public class Message implements Parcelable{
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public void setPostedTs(long postedTs) {
-        this.postedTs = postedTs;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 
     public void setId(long id) {
