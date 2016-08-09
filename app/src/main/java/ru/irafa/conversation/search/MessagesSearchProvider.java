@@ -4,7 +4,6 @@ import org.greenrobot.greendao.query.Query;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -96,11 +95,8 @@ public class MessagesSearchProvider extends BaseSearchProvider<Message> {
 
         StringBuffer sb = new StringBuffer();
         sb.append(query);
-        Log.d("Search", sb.toString());
         sb = searchBeforeTag(sb);
-        Log.d("Search", sb.toString());
         sb = searchAfterTag(sb);
-        Log.d("Search", sb.toString());
         // sb = searchXXXTag(sb); //Example of new tag support
         // We can easily add support for new search tag/patter here passing
         // StringBuffer that is already cleaned from tags that recognised.
