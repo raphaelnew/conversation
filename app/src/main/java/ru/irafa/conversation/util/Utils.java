@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import ru.irafa.conversation.R;
 
@@ -28,14 +30,15 @@ public class Utils {
      */
     public static String getReadableMessageDate(Long timestamp) {
         Calendar calendar = Calendar.getInstance();
-        //convert Unix timestamp to millisecond.
+        // Convert Unix timestamp to millisecond.
         timestamp *= 1000L;
         calendar.setTimeInMillis(timestamp);
-        //Create a DateFormatter object for displaying date in specified format.
         try {
-            //We can use SimpleDateFormat.getDateTimeInstance() but in this test project we want to
-            // see full date.
-            SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy 'at' h:mm a");
+            // We can use SimpleDateFormat.getDateTimeInstance() but in this test project we want to
+            // see full date in comfortable format.
+            SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy 'at' h:mm a",
+                    Locale.getDefault());
+            format.setTimeZone(TimeZone.getDefault());
             return format.format(calendar.getTime());
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -55,7 +58,7 @@ public class Utils {
         }
         int color = ContextCompat.getColor(textView.getContext(), R.color.colorAccent);
         SpannableStringBuilder sb = new SpannableStringBuilder(textView.getText());
-        // String indexOf() is case sensitive, we work on lowercase version.
+        // String indexOf() is case sensitive, we work with lowercase version.
         String originalText = textView.getText().toString().toLowerCase();
         int startIndex = 0;
         int endIndex = 0;
