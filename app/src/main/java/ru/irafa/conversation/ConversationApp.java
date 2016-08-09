@@ -32,7 +32,13 @@ public class ConversationApp extends Application {
     public static DaoSession getDaoSession(Context context) {
         if (mDaoSession == null) {
             DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context,
-                    "conversation-db");
+                    "conversation-db") {
+                @Override
+                public void onUpgrade(Database db, int oldVersion, int newVersion) {
+                    super.onUpgrade(db, oldVersion, newVersion);
+                    //// TODO: 09.08.16 Implement DB upgrage logic for production app.
+                }
+            };
             Database db = helper.getWritableDb();
             mDaoSession = new DaoMaster(db).newSession();
         }
