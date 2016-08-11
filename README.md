@@ -28,6 +28,8 @@ Time spent: 16 hours - all required functionality. + around 3 hours on writing t
 - Nexus 4 (API 19) emulator provides strange scrolling behaviour because of ConstraintLayout and/or Data Binding.
 - Nexus 9 (API 24)
 - Nvidia Shield Portable (API 21 hardware keyboard/d-pad navigation).
+- Asus ChromeBook Flip (API 23 chromebook, ARM architecture).
+- Chromebook Pixel (API 23 chromebook, Intel x86 architecture).
 
 ## TODO
 - More unit test coverage, add Instrumentation tests.
