@@ -29,6 +29,7 @@ public class Conversation {
 
     /**
      * Saves all users and messages to local DB.
+     *
      * @param daoSession {@link DaoSession}
      */
     public void saveToDB(DaoSession daoSession) {

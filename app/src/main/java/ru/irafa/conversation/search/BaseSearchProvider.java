@@ -1,7 +1,8 @@
 package ru.irafa.conversation.search;
 
 /**
- * Base Search Provider class. Extend this class to provide search functionality for specific model.
+ * Base Search Provider class. Extend this class to provide search functionality for specific
+ * model.
  * Created by Raphael Gilyazitdinov on 07.08.16.
  */
 

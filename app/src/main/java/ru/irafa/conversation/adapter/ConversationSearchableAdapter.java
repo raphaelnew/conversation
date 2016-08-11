@@ -59,7 +59,8 @@ public class ConversationSearchableAdapter
 
     @Override
     public int getItemViewType(int position) {
-        return (getDataset().get(position).getUserId() == mSelfId) ? VIEW_TYPE_SELF : VIEW_TYPE_OTHER;
+        return (getDataset().get(position).getUserId() == mSelfId) ? VIEW_TYPE_SELF
+                : VIEW_TYPE_OTHER;
     }
 
     @Override

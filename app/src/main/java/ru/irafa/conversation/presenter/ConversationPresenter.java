@@ -1,5 +1,7 @@
 package ru.irafa.conversation.presenter;
 
+import org.greenrobot.greendao.query.Query;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,6 +41,8 @@ public class ConversationPresenter {
 
     private OnConversationListener onConversationListener;
 
+    private final Query dbQuery;
+
     public static ConversationPresenter fromSavedState(DaoSession daoSession,
             @NonNull OnConversationListener onConversationListener,
             @Nullable Bundle savedInstanceState) {
@@ -58,7 +62,8 @@ public class ConversationPresenter {
             boolean sync) {
         this.onConversationListener = onConversationListener;
         this.daoSession = daoSession;
-
+        this.dbQuery = daoSession.getMessageDao().queryBuilder()
+                .orderAsc(MessageDao.Properties.PostedTs).build();
         boolean gotCachedConversation = sendResultEvent(false);
         if (sync || !gotCachedConversation) {
             asyncRequest();
@@ -82,7 +87,7 @@ public class ConversationPresenter {
     }
 
     public void onSaveInstanceState(Bundle outState) {
-        //// Save any temporary state between device configuration changes.
+        // Save any temporary state between device configuration changes.
     }
 
     /**
@@ -137,10 +142,10 @@ public class ConversationPresenter {
             return false;
         }
         long messageCount = daoSession.getMessageDao().queryBuilder().count();
-        List<Message> results =daoSession.getMessageDao().queryBuilder()
-                .orderAsc(MessageDao.Properties.PostedTs).build().list();
+        //noinspection unchecked we know at compile time that result will be List<Message> type.
+        List<Message> results = dbQuery.list();
         //check if we already have conversation in DB.
-        if (messageCount > 0L && results!=null && !results.isEmpty()) {
+        if (messageCount > 0L && results != null && !results.isEmpty()) {
             onConversationListener.onConversationChanged(
                     results);
             return true;

@@ -36,10 +36,10 @@ public class SearchableViewHolderSelf extends BaseSearchableViewHolder<Message> 
                 .transform(new CircleTransform()).into(mBinding.avatar);
         if (foundInSearch) {
             Utils.highLightText(mBinding.content, searchQuery);
-            if(!mBinding.messageItem.isActivated()) {
+            if (!mBinding.messageItem.isActivated()) {
                 mBinding.messageItem.setActivated(true);
             }
-        }else {
+        } else {
             mBinding.messageItem.setActivated(false);
         }
     }

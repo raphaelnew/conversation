@@ -47,7 +47,7 @@ public class ConversationFragment extends Fragment
 
     private ConversationSearchableAdapter mAdapter;
 
-    private SearchEngine<Message,MessagesSearchProvider> mSearchEngine;
+    private SearchEngine<Message, MessagesSearchProvider> mSearchEngine;
 
     private MenuItem mSearchItem;
 
@@ -74,7 +74,6 @@ public class ConversationFragment extends Fragment
         }
         return mBinding.getRoot();
     }
-
 
 
     private void setupUI() {
@@ -105,11 +104,14 @@ public class ConversationFragment extends Fragment
         mSearchItem = menu.findItem(R.id.action_search);
         MenuItemCompat.setOnActionExpandListener(mSearchItem, this);
 
-        mSearchEngine = new SearchEngine<>(new MessagesSearchProvider(ConversationApp.getDaoSession(getContext())), this);
+        mSearchEngine = new SearchEngine<>(
+                new MessagesSearchProvider(ConversationApp.getDaoSession(getContext())), this);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
         // Configure the search view and add search related event listeners.
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        SearchManager searchManager = (SearchManager) getActivity()
+                .getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setOnQueryTextListener(this);
@@ -147,7 +149,8 @@ public class ConversationFragment extends Fragment
         mAdapter.applySearchResult(searchResult);
         if (success && searchResult != null && !searchResult.getResults().isEmpty()) {
             //Scroll RecyclerView to first item in search results.
-            int scrollToPosition = mAdapter.getDataItemPosition(searchResult.getResults().get(searchResult.getResults().size()-1));
+            int scrollToPosition = mAdapter.getDataItemPosition(
+                    searchResult.getResults().get(searchResult.getResults().size() - 1));
             mBinding.recyclerView.getLayoutManager().scrollToPosition(scrollToPosition);
         }
     }
@@ -189,7 +192,7 @@ public class ConversationFragment extends Fragment
                     .setText(String.format(getString(R.string.status_error), message));
             mBinding.emptyTextview.setVisibility(View.VISIBLE);
             mBinding.retryButton.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             Snackbar.make(mBinding.fragmentConversation, message, Snackbar.LENGTH_LONG).setAction(
                     getString(R.string.button_retry), new View.OnClickListener() {
                         @Override
